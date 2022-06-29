@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
 // These imports won't work until you fix ./components/index.js
-import { Feature, Loading, Preview, Search, Title } from "./components";
+// import { Feature, Loading, Preview, Search, Title } from "./components";
 
 const App = () => {
   /**
@@ -13,6 +13,9 @@ const App = () => {
    * featuredResult, setFeaturedResult (default should be null)
    * isLoading, setIsLoading (default should be false)
    */
+  const [searchResults, setSearchResults] = useState({ info: {}, records: [] });
+  const [featuredResult, setFeaturedResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // * FOR THE FOLLOWING CODE, COMMENT YOUR COMPONENTS IN, AS YOU WORK ON THEM TO AVOID ERRORS BREAKING YOUR CODE!
   return (
