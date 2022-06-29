@@ -22,7 +22,11 @@ const Search = (props) => {
    * century, setCentury (default should be the string 'any')
    * classification, setClassification (default should be the string 'any')
    */
-
+  const [centuryList, setCenturyList] = useState([]);
+  const [classificationList, setClassificationList] = useState([]);
+  const [queryString, setQueryString] = useState("");
+  const [century, setCentury] = useState("any");
+  const [classification, setClassification] = useState("any");
   /**
    * Inside of useEffect, use Promise.all([]) with fetchAllCenturies and fetchAllClassifications
    *
@@ -30,7 +34,15 @@ const Search = (props) => {
    *
    * Make sure to console.error on caught errors from the API methods.
    */
-  useEffect(() => {}, []);
+  useEffect(() => {
+    try {
+      Promise.all([fetchAllCenturies, fetchAllClassifications])
+        .then(setCenturyList(centuryList))
+        .then(setClassificationList(classificationList));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   /**
    * This is a form element, so we need to bind an onSubmit handler to it which:
@@ -48,11 +60,26 @@ const Search = (props) => {
    *
    * finally: call setIsLoading, set it to false
    */
+
   return (
     <form
       id="search"
       onSubmit={async (event) => {
         // write code here
+        event.preventDefault();
+        setIsLoading(true);
+        try {
+          let results = fetchQueryResults({
+            century,
+            classification,
+            queryString,
+          });
+          setSearchResults(results);
+        } catch (error) {
+          console.error;
+        } finally {
+          setIsLoading(false);
+        }
       }}
     >
       <fieldset>
