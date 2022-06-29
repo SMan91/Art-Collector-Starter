@@ -36,13 +36,19 @@ const Search = (props) => {
    */
   useEffect(() => {
     try {
-      Promise.all([fetchAllCenturies, fetchAllClassifications])
-        .then(setCenturyList(centuryList))
-        .then(setClassificationList(classificationList));
+      Promise.all([fetchAllCenturies(), fetchAllClassifications()]).then(
+        (result) => {
+          setCenturyList(result[0]);
+          setClassificationList(result[1]);
+        }
+      );
     } catch (error) {
       console.log(error);
     }
   }, []);
+
+  // console.log("Classification List: ", classificationList);
+  console.log("Century List: ", centuryList);
 
   /**
    * This is a form element, so we need to bind an onSubmit handler to it which:
@@ -65,20 +71,20 @@ const Search = (props) => {
     <form
       id="search"
       onSubmit={async (event) => {
-        // write code here
+        // write code here -- Done
         event.preventDefault();
-        setIsLoading(true);
+        props.setIsLoading(true);
         try {
           let results = fetchQueryResults({
             century,
             classification,
             queryString,
           });
-          setSearchResults(results);
+          props.setSearchResults(results);
         } catch (error) {
-          console.error;
+          console.log(error);
         } finally {
-          setIsLoading(false);
+          props.setIsLoading(false);
         }
       }}
     >
@@ -89,9 +95,9 @@ const Search = (props) => {
           type="text"
           placeholder="enter keywords..."
           // TODO UN-comment and fill in the correct value:
-          // value={/* this should be the query string */}
+          value={queryString}
           // TODO UN-comment and fill in the correct onChange function
-          // onChange={/* this should update the value of the query string */}
+          onChange={(e) => setQueryString(e.target.value)}
         />
       </fieldset>
       <fieldset>
@@ -105,12 +111,17 @@ const Search = (props) => {
           name="classification"
           id="select-classification"
           // TODO UN-comment the value property, and pass it the correct value
-          // value={/* this should be the classification */}
+          value={classification}
           // TODO UN-comment and fill in the correct onChange function
-          // onChange={/* this should update the value of the classification */}
+          onChange={(e) => setClassification(e.target.value)}
         >
           <option value="any">Any</option>
-          {/* map over the classificationList, return an <option /> */}
+          {
+            /* map over the classificationList, return an <option /> */
+            classificationList.map((entry) => {
+              return <option key={`key=${entry.id}`}>{entry.name}</option>;
+            })
+          }
         </select>
       </fieldset>
       <fieldset>
@@ -121,12 +132,17 @@ const Search = (props) => {
           name="century"
           id="select-century"
           // TODO UN-comment the value property, and pass it the correct value
-          // value={/* this should be the century */}
+          value={century}
           // TODO UN-comment and fill in the correct onChange function
-          // onChange={/* this should update the value of the century */}
+          onChange={(e) => setCentury(e.target.value)}
         >
           <option value="any">Any</option>
-          {/* map over the centuryList, return an <option /> */}
+          {
+            /* map over the centuryList, return an <option /> */
+            centuryList.map((entry) => {
+              return <option key={`key=${entry.id}`}>{entry.name}</option>;
+            })
+          }
         </select>
       </fieldset>
       <button>SEARCH</button>
