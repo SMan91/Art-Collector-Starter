@@ -13,7 +13,11 @@ const Preview = (props) => {
    *
    * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
    */
-
+  const setSearchResults = props.setSearchResults;
+  const setFeaturedResult = props.setFeaturedResult;
+  const setIsLoading = props.setIsLoading;
+  const info = props.searchResults.info;
+  const records = props.searchResults.records;
   /**
    * Don't touch this function, it's good to go.
    *
@@ -31,33 +35,40 @@ const Preview = (props) => {
       setIsLoading(false);
     }
   }
-
+  console.log(info);
+  console.log(info);
   return (
     <aside id="preview">
       <header className="pagination">
         {/* This button should be disabled if nothing is set in info.prev, and should call fetchPage with info.prev when clicked */}
         <button
           // TODO Fill in the {} with the correct value
-          // disabled={}
+
+          // disabled={!prev}
           className="previous"
           // TODO Fill in or replace this onClick with the correct callback
-          onClick={() => {}}
+          onClick={() => {
+            fetchPage(info.prev);
+          }}
         >
           Previous
         </button>
         {/* This button should be disabled if nothing is set in info.next, and should call fetchPage with info.next when clicked */}
         <button
           // TODO in the next {} with the correct value:
-          // disabled={}
+          // disabled={!next}
           className="next"
           // TODO Fill in or replace this on Click with the correct callback
-          onClick={() => {}}
+          onClick={() => {
+            fetchPage(info.next);
+          }}
         >
           Next
         </button>
       </header>
       <section className="results">
-        {/* Here we should map over the records, and render something like this for each one:
+        {
+          /* Here we should map over the records, and render something like this for each one:
           <div  
             key={ index }
             className="object-preview"
@@ -72,7 +83,39 @@ const Preview = (props) => {
               // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
             }
           </div>
-        */}
+        */
+
+          records.map((record, index) => {
+            return (
+              <div
+                key={index}
+                className="object-preview"
+                onClick={(event) => {
+                  // prevent the default
+                  event.preventDefault();
+                  // set the featured result to be this record, using setFeaturedResult
+                  setFeaturedResult(event.target.value);
+                }}
+              >
+                {
+                  // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing
+                  record.primaryimageurl ? (
+                    <img
+                      src={record.primaryimageurl}
+                      alt={record.description}
+                    />
+                  ) : (
+                    <img></img>
+                  )
+                }
+                {
+                  // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
+                  record.title ? <h3>{record.title}</h3> : <h3>MISSING INFO</h3>
+                }
+              </div>
+            );
+          })
+        }
       </section>
     </aside>
   );

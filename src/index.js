@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import Title from "./components/Title.js";
 import Search from "./components/Search.js";
+import Preview from "./components/Preview.js";
 
 // These imports won't work until you fix ./components/index.js
 // import { Feature, Loading, Preview, Search, Title } from "./components";
@@ -28,7 +29,14 @@ const App = () => {
       {/* The following Search component needs props for setIsLoading and setSearchResults (trigger <Loading /> on search start/end, and transfer results to preview) */}
       <Search setIsLoading={setIsLoading} setSearchResults={setSearchResults} />
       {/* The following Preview component needs props for searchResults, setIsLoading and setSearchResults (clicking prev/next buttons), and setFeaturedResult (clicking a preview) */}
-      {/* <Preview /> */}
+      {
+        <Preview
+          searchResults={searchResults}
+          setIsLoading={setIsLoading}
+          setSearchResults={setSearchResults}
+          setFeaturedResult={setFeaturedResult}
+        />
+      }
       {/* The following Feature component needs props for featuredResult, as well as setIsLoading and setSearchResults (clicking on searchable properties) */}
       {/* <Feature /> */}
       {/* The following Loading component is static, but should only render when isLoading is true */}
