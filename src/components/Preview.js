@@ -7,6 +7,7 @@ import React from "react";
 import { fetchQueryResultsFromURL } from "../api";
 
 const Preview = (props) => {
+  console.log("Props:", props);
   /**
    *  Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    *  and also destructure info and records from props.searchResults
@@ -18,6 +19,7 @@ const Preview = (props) => {
   const setIsLoading = props.setIsLoading;
   const info = props.searchResults.info;
   const records = props.searchResults.records;
+  // console.log("Info:", info);
   /**
    * Don't touch this function, it's good to go.
    *
@@ -35,8 +37,7 @@ const Preview = (props) => {
       setIsLoading(false);
     }
   }
-  console.log(info);
-  console.log(info);
+
   return (
     <aside id="preview">
       <header className="pagination">
@@ -44,11 +45,12 @@ const Preview = (props) => {
         <button
           // TODO Fill in the {} with the correct value
 
-          // disabled={!prev}
+          disabled={!info.prev}
           className="previous"
           // TODO Fill in or replace this onClick with the correct callback
           onClick={() => {
-            fetchPage(info.prev);
+            // console.log("Info in return:", info);
+            fetchPage(info.previous);
           }}
         >
           Previous
@@ -56,7 +58,7 @@ const Preview = (props) => {
         {/* This button should be disabled if nothing is set in info.next, and should call fetchPage with info.next when clicked */}
         <button
           // TODO in the next {} with the correct value:
-          // disabled={!next}
+          disabled={!info.next}
           className="next"
           // TODO Fill in or replace this on Click with the correct callback
           onClick={() => {
