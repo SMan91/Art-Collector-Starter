@@ -5,6 +5,7 @@ import Title from "./components/Title.js";
 import Search from "./components/Search.js";
 import Preview from "./components/Preview.js";
 import Feature from "./components/Feature.js";
+import Loading from "./components/Loading.js";
 
 // These imports won't work until you fix ./components/index.js
 // import { Feature, Loading, Preview, Search, Title } from "./components";
@@ -48,6 +49,7 @@ const App = () => {
       }
       {/* The following Loading component is static, but should only render when isLoading is true */}
       {/* <Loading /> use a ternary and render null if isLoading is false */}
+      {isLoading ? <Loading /> : null}
     </div>
   );
 };

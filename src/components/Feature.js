@@ -33,7 +33,8 @@ const Searchable = (props) => {
   const searchTerm = props.searchTerm;
   const searchValue = props.searchValue;
   const setIsLoading = props.setIsLoading;
-  const setSearchresults = props.setSearchresults;
+  const setSearchResults = props.setSearchResults;
+  console.log("Props in Searchable ", props);
 
   // console.log("Search Term: ", searchTerm);
 
@@ -45,13 +46,14 @@ const Searchable = (props) => {
         onClick={async (event) => {
           event.preventDefault();
           setIsLoading(true);
-
+          console.log("Search Term: ", searchTerm);
+          console.log("Search Value: ", searchValue);
           try {
             let result = await fetchQueryResultsFromTermAndValue(
               searchTerm,
               searchValue
             );
-            setSearchresults(result);
+            setSearchResults(result);
           } catch (error) {
             console.log(error);
           } finally {
@@ -59,7 +61,7 @@ const Searchable = (props) => {
           }
         }}
       >
-        SOME SEARCH TERM
+        Search Term: {searchTerm}
       </a>{" "}
     </span>
   );
@@ -101,13 +103,17 @@ const Searchable = (props) => {
  */
 const Feature = (props) => {
   const featuredResult = props.featuredResult;
+  const setIsLoading = props.setIsLoading;
+  const setSearchResults = props.setSearchResults;
   console.log("Featured result: ", props.featuredResult);
+
   let result = <></>;
 
   if (props.featuredResult === null) {
     result = <main id="feature"></main>;
   } else {
-    console.log("images: ", featuredResult.images);
+    // console.log("images: ", featuredResult.images);
+    // console.log("People: ", featuredResult.people);
     result = (
       <main id="feature">
         <div className="object-feature">
@@ -116,18 +122,35 @@ const Feature = (props) => {
             <h4>{featuredResult.dated}</h4>
           </header>
           <section className="facts">
-            <span className="title">
-              Description: {featuredResult.description}
-            </span>
-            <span className="content">Style: {featuredResult.style}</span>
-            <span className="title">
-              Dimensions: {featuredResult.dimensions}
-            </span>
-            <span className="content">
-              Department: {featuredResult.department}
-            </span>
+            {featuredResult?.description ? (
+              <span className="title">
+                Description: {featuredResult.description}
+              </span>
+            ) : null}
+
+            {featuredResult?.style ? (
+              <span className="style">Style: {featuredResult.style}</span>
+            ) : null}
+
+            {featuredResult?.dimensions ? (
+              <span className="dimension">
+                Dimensions: {featuredResult.dimensions}
+              </span>
+            ) : null}
+
+            {featuredResult?.department ? (
+              <span className="department">
+                Department: {featuredResult.department}
+              </span>
+            ) : null}
+
             <span className="culture">
-              <Searchable culture={featuredResult.culture} />
+              <Searchable
+                searchTerm={"culture"}
+                searchValue={featuredResult.culture}
+                setIsLoading={setIsLoading}
+                setSearchResults={setSearchResults}
+              />
             </span>
           </section>
           <section className="photos">
