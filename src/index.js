@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Title from "./components/Title.js";
 import Search from "./components/Search.js";
 import Preview from "./components/Preview.js";
+import Feature from "./components/Feature.js";
 
 // These imports won't work until you fix ./components/index.js
 // import { Feature, Loading, Preview, Search, Title } from "./components";
@@ -38,7 +39,13 @@ const App = () => {
         />
       }
       {/* The following Feature component needs props for featuredResult, as well as setIsLoading and setSearchResults (clicking on searchable properties) */}
-      {/* <Feature /> */}
+      {
+        <Feature
+          featuredResult={featuredResult}
+          setIsLoading={setIsLoading}
+          setSearchResults={setSearchResults}
+        />
+      }
       {/* The following Loading component is static, but should only render when isLoading is true */}
       {/* <Loading /> use a ternary and render null if isLoading is false */}
     </div>

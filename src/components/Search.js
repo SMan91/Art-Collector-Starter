@@ -47,9 +47,6 @@ const Search = (props) => {
     }
   }, []);
 
-  // console.log("Classification List: ", classificationList);
-  console.log("Century List: ", centuryList);
-
   /**
    * This is a form element, so we need to bind an onSubmit handler to it which:
    *
