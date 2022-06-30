@@ -95,7 +95,7 @@ const Preview = (props) => {
                   // prevent the default
                   event.preventDefault();
                   // set the featured result to be this record, using setFeaturedResult
-                  setFeaturedResult(event.target.value);
+                  setFeaturedResult(record);
                 }}
               >
                 {

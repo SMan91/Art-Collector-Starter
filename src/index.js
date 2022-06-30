@@ -21,7 +21,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState({ info: {}, records: [] });
   const [featuredResult, setFeaturedResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("From index search results: ", searchResults);
+
   // * FOR THE FOLLOWING CODE, COMMENT YOUR COMPONENTS IN, AS YOU WORK ON THEM TO AVOID ERRORS BREAKING YOUR CODE!
   return (
     <div className="app">

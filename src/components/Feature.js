@@ -30,10 +30,35 @@ import { fetchQueryResultsFromTermAndValue } from "../api";
  *  - call setIsLoading, set it to false
  */
 const Searchable = (props) => {
+  const searchTerm = props.searchTerm;
+  const searchValue = props.searchValue;
+  const setIsLoading = props.setIsLoading;
+  const setSearchresults = props.setSearchresults;
+
+  // console.log("Search Term: ", searchTerm);
+
   return (
     <span className="content">
       {" "}
-      <a href="#" onClick={async (event) => {}}>
+      <a
+        href="#"
+        onClick={async (event) => {
+          event.preventDefault();
+          setIsLoading(true);
+
+          try {
+            let result = await fetchQueryResultsFromTermAndValue(
+              searchTerm,
+              searchValue
+            );
+            setSearchresults(result);
+          } catch (error) {
+            console.log(error);
+          } finally {
+            setIsLoading(false);
+          }
+        }}
+      >
         SOME SEARCH TERM
       </a>{" "}
     </span>
@@ -75,28 +100,41 @@ const Searchable = (props) => {
  * This component should be exported as default.
  */
 const Feature = (props) => {
-  console.log(props);
-
+  const featuredResult = props.featuredResult;
+  console.log("Featured result: ", props.featuredResult);
   let result = <></>;
 
   if (props.featuredResult === null) {
     result = <main id="feature"></main>;
   } else {
+    console.log("images: ", featuredResult.images);
     result = (
       <main id="feature">
         <div className="object-feature">
           <header>
-            <h3>OBJECT TITLE</h3>
-            <h4>WHEN IT IS DATED</h4>
+            <h3>{featuredResult.title}</h3>
+            <h4>{featuredResult.dated}</h4>
           </header>
           <section className="facts">
-            <span className="title">FACT NAME</span>
-            <span className="content">FACT VALUE</span>
-            <span className="title">NEXT FACT NAME</span>
-            <span className="content">NEXT FACT VALUE</span>
+            <span className="title">
+              Description: {featuredResult.description}
+            </span>
+            <span className="content">Style: {featuredResult.style}</span>
+            <span className="title">
+              Dimensions: {featuredResult.dimensions}
+            </span>
+            <span className="content">
+              Department: {featuredResult.department}
+            </span>
+            <span className="culture">
+              <Searchable culture={featuredResult.culture} />
+            </span>
           </section>
           <section className="photos">
-            <img src="" alt="SOMETHING_WORTHWHILE" />
+            <img
+              src={featuredResult.primaryimageurl}
+              alt={featuredResult.description}
+            />
           </section>
         </div>
       </main>
